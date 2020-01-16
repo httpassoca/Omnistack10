@@ -8,7 +8,7 @@ const app = express();
 // WINDOWS:
 let mongoPort =
   "mongodb://rafonel:rafonel@testepassoca-shard-00-00-wplbk.gcp.mongodb.net:27017,testepassoca-shard-00-01-wplbk.gcp.mongodb.net:27017,testepassoca-shard-00-02-wplbk.gcp.mongodb.net:27017/test?ssl=true&replicaSet=TestePassoca-shard-0&authSource=admin&retryWrites=true&w=majority";
-
+mongoose.set("useCreateIndex", true); // stop DeprecationWarning
 mongoose.connect(mongoPort, {
   useNewUrlParser: true,
   useUnifiedTopology: true

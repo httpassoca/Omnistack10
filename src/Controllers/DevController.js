@@ -10,6 +10,7 @@ module.exports = {
     const { github_username, techs, lat, long } = req.body;
     // Checking existent user
     let dev = await Dev.findOne({ github_username });
+    // console.log(github_username + "-" + dev);
     if (!dev) {
       // Picking github values
       const devGithub = await axios.get(
@@ -32,20 +33,36 @@ module.exports = {
     } else {
       dev = "Usuário já cadastrado ";
     }
-    return res.json(dev);
+    return res.json(dev.name + " foi cadastrado com sucesso");
   },
   async index(req, res, next) {
     const devs = await Dev.find();
-    return res.json(devs);
-  },
-  async update(req, res, next) {
-    const { github_username } = req.query;
-    const dev = await Dev.find({
-      github_username: {
-        $eq: github_username
-      }
+    let devArray = devs.map(dev => {
+      let devTechs = "";
+      dev.techs.forEach(tech => {
+        devTechs += " " + tech;
+      });
+      return "Dev: " + dev.name + ", techs: " + devTechs;
     });
-    return res.json(dev);
+    return res.json(devArray.sort());
   },
-  async destroy() {}
+  async update(req, res, next) {},
+  async destroy(req, res, next) {
+    let result = "";
+    const github_username = req.params.username;
+
+    let devExists = await Dev.findOne({ github_username });
+    console.log(github_username + "-" + devExists);
+    if (devExists) {
+      await Dev.deleteOne({
+        github_username: github_username
+      });
+      let devRemoved = await Dev.findOne({ github_username });
+      console.log(github_username + "-" + devRemoved);
+      result = devRemoved ? "Error" : "User has been deleted";
+    } else {
+      result = "This user doesn't exists";
+    }
+    return res.send(result);
+  }
 };
