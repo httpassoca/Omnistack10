@@ -4,8 +4,24 @@ const parseSringAsArray = require("../utils/parseStringAsArray");
 
 // Index, show, store, update, destroy
 
+function predicateBy(prop) {
+  return function(a, b) {
+    if (a[prop] > b[prop]) {
+      return 1;
+    } else if (a[prop] < b[prop]) {
+      return -1;
+    }
+    return 0;
+  };
+}
+
+//Usage
+//yourArray.sort( predicateBy("age") );
+//yourArray.sort( predicateBy("name") );
+
 module.exports = {
   async store(req, res, next) {
+    let result = "";
     // Picking inputs values
     const { github_username, techs, lat, long } = req.body;
     // Checking existent user
@@ -30,10 +46,11 @@ module.exports = {
         techs: techsArray,
         location
       });
+      result = dev.name + " foi cadastrado com sucesso";
     } else {
-      dev = "Usuário já cadastrado ";
+      result = dev.name + " já cadastrado ";
     }
-    return res.json(dev.name + " foi cadastrado com sucesso");
+    return res.json(result);
   },
   async index(req, res, next) {
     const devs = await Dev.find();
@@ -44,24 +61,23 @@ module.exports = {
       });
       return "Dev: " + dev.name + ", techs: " + devTechs;
     });
-    return res.json(devArray.sort());
+    return res.json(devs.sort(predicateBy("name")));
   },
   async update(req, res, next) {},
   async destroy(req, res, next) {
+    // armazena o resultado da função
     let result = "";
     const github_username = req.params.username;
 
+    // check if dev exists
     let devExists = await Dev.findOne({ github_username });
-    console.log(github_username + "-" + devExists);
     if (devExists) {
-      await Dev.deleteOne({
-        github_username: github_username
-      });
+      // delete and check if user was deleted
+      await Dev.deleteOne({ github_username });
       let devRemoved = await Dev.findOne({ github_username });
-      console.log(github_username + "-" + devRemoved);
       result = devRemoved ? "Error" : "User has been deleted";
     } else {
-      result = "This user doesn't exists";
+      result = github_username + " doesn't exists";
     }
     return res.send(result);
   }

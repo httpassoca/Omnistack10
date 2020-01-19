@@ -1,0 +1,85 @@
+.dev-item {
+    background: rgba(97, 221, 86, .05);
+    padding: 20px;
+    transition: all .2s;
+    border-radius: 2px;
+    max-width: 300px;
+    border: 1px solid #61dd56;
+}
+
+.dev-item:hover {
+    box-shadow: 0 0 10px 0 rgba(97, 221, 86, .5);
+    transform: translateY(-5px);
+}
+
+.dev-item header {
+    text-align: center;
+    color: white;
+}
+
+.dev-item img {
+    /* text-align: center; */
+    margin: 0 auto;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, .9);
+    /* border: 3px solid black; */
+}
+
+.dev-item .user-info {
+    /* float: right; */
+    margin-left: 10px;
+}
+
+.user-info p.title {
+    display: block;
+    font-size: 16px;
+    font-weight: bolder;
+    color: #61dd56;
+    margin: 15px 0;
+}
+
+.user-info p.title::before {
+    content: '[ ';
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+.user-info p.title::after {
+    content: ' ]';
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+.user-info p.techs {
+    display: block;
+    font-size: 16px;
+    color: black;
+    font-weight: bolder;
+    background-color: lime;
+    padding: 3px 15px;
+}
+
+
+.dev-item p.bio {
+    margin: 10px 0;
+    color: #eee;
+    font-size: 13px;
+}
+
+.dev-item p.bio::before {
+    content: '\" ';
+
+}
+
+.dev-item p.bio::after {
+    content: ' \"';
+}
+
+.dev-item a {
+    text-decoration: none;
+    font-weight: bolder;
+    border-bottom: 2px dotted white;
+    color: white;
+}

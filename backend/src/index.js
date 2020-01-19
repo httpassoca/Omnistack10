@@ -1,13 +1,15 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 const routes = require("./routes");
 const app = express();
 
 // LINUX :
-// let mongoPort="mongodb+srv://rafonel:rafonel@testepassoca-wplbk.gcp.mongodb.net/test?retryWrites=true&w=majority";
-// WINDOWS:
 let mongoPort =
-  "mongodb://rafonel:rafonel@testepassoca-shard-00-00-wplbk.gcp.mongodb.net:27017,testepassoca-shard-00-01-wplbk.gcp.mongodb.net:27017,testepassoca-shard-00-02-wplbk.gcp.mongodb.net:27017/test?ssl=true&replicaSet=TestePassoca-shard-0&authSource=admin&retryWrites=true&w=majority";
+  "mongodb+srv://rafonel:rafonel@testepassoca-wplbk.gcp.mongodb.net/test?retryWrites=true&w=majority";
+// WINDOWS:
+//let mongoPort =
+// "mongodb://rafonel:rafonel@testepassoca-shard-00-00-wplbk.gcp.mongodb.net:27017,testepassoca-shard-00-01-wplbk.gcp.mongodb.net:27017,testepassoca-shard-00-02-wplbk.gcp.mongodb.net:27017/test?ssl=true&replicaSet=TestePassoca-shard-0&authSource=admin&retryWrites=true&w=majority";
 mongoose.set("useCreateIndex", true); // stop DeprecationWarning
 mongoose.connect(mongoPort, {
   useNewUrlParser: true,
@@ -20,10 +22,10 @@ mongoose.connect(mongoPort, {
 // Body > req.body(dados pra criar ou editar algum registro, POST e PUT)
 
 // MongoDB (não relacional  )
-
+app.use(cors());
 app.use(express.json());
 app.use(routes);
 
-app.listen(3333, "", () => {
-  console.log("Server is running on port 3333");
+app.listen(8080, "", () => {
+  console.log("Server is running on port 8080");
 });
