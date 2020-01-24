@@ -1,7 +1,7 @@
 const axios = require("axios");
 const Dev = require("../models/Dev");
 const parseSringAsArray = require("../utils/parseStringAsArray");
-
+const { findConnections, sendMessage } = require("../websocket");
 // Index, show, store, update, destroy
 
 function predicateBy(prop) {
@@ -46,6 +46,10 @@ module.exports = {
         techs: techsArray,
         location
       });
+
+      // Devs registrados agr
+      const sendSocketMessageTo = findConnections({ lat, long }, techsArray);
+      sendMessage(sendSocketMessageTo, "new-dev", dev);
       result = dev.name + " foi cadastrado com sucesso";
     } else {
       result = dev.name + " já cadastrado ";

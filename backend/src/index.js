@@ -2,7 +2,13 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const routes = require("./routes");
+const http = require("http");
+const { setupWebsocket } = require("./websocket");
+
 const app = express();
+const server = http.Server(app);
+
+setupWebsocket(server);
 
 // LINUX :
 let mongoPort =
@@ -26,6 +32,7 @@ app.use(cors());
 app.use(express.json());
 app.use(routes);
 
-app.listen(8080, "", () => {
-  console.log("Server is running on port 8080");
+const port = 8080;
+server.listen(port, "", () => {
+  console.log("Server is running on port " + port);
 });
